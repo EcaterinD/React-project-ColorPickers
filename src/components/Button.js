@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useTheme } from "../store/Theme.context";
 import styles from "./Button.module.css";
+import { useThemeColors } from '../store/ThemeColor.context';
 
 const Button = (props) => {
-  const { theme } = useTheme();
+  const { themeColors } = useThemeColors();
 
   useEffect(() => {
     console.log("Button mounted!");
@@ -17,8 +17,8 @@ const Button = (props) => {
     <div
       className={`${styles.container}`} 
       style={{
-        backgroundColor: theme === "Light" ? "green" : "#a5d6a7",
-        color: theme === "Light" ?  "#a5d6a7" : "green",
+        backgroundColor: themeColors.backgroundButton,
+        color: themeColors.textButton,
         fontFamily: "'Permanent Marker', cursive"
       }}
       onClick={props.onClick}

@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ThemeProvider } from "./store/Theme.context";
+import { ThemeColorProvider } from "./store/ThemeColor.context";
 import { UserProvider } from "./store/User.context";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Provider as ReduxProvider } from "react-redux";
@@ -17,7 +18,9 @@ const Providers = ({ children }) => {
     <ReduxProvider store={store}>
       <ChakraProvider>
         <ThemeProvider>
-          <UserProvider>{children}</UserProvider>
+          <ThemeColorProvider>
+            <UserProvider>{children}</UserProvider>
+          </ThemeColorProvider>
         </ThemeProvider>
       </ChakraProvider>
     </ReduxProvider>

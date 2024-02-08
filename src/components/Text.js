@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useTheme } from "../store/Theme.context";
 import styles from "./Text.module.css";
+import { useThemeColors } from '../store/ThemeColor.context';
 
 const Text = (props) => {
-  const { theme } = useTheme();
+  const { themeColors } = useThemeColors();
 
   useEffect(() => {
     console.log("Button mounted!");
@@ -17,7 +17,7 @@ const Text = (props) => {
     <div
       className={`${styles.container}`} 
       style={{
-        color: theme === "Light" ? "green" : "#a5d6a7",
+        color: themeColors.text,
         fontFamily: "'Permanent Marker', cursive"
       }}
       onClick={props.onClick}

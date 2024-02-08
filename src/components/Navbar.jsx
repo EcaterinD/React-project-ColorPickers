@@ -5,16 +5,20 @@ import { signOut } from "firebase/auth";
 import { auth } from "../lib/firebase";
 import Button from "../components/Button.js";
 import { useTheme } from "../store/Theme.context";
+import { useThemeColors } from '../store/ThemeColor.context';
 import '../App.css';
 
 const Navbar = () => {
   const homeMatch = useMatch("/");
-  const counterMatch = useMatch("/counter");
+  const colorPickerMatch = useMatch("/colorpicker");
   const { theme, switchTheme } = useTheme();
+  const userId = auth.currentUser.uid;
+  const myColorsMatch = useMatch(`/users/${userId}/colors`);
+  const { themeColors } = useThemeColors();
 
   return (
     <>
-      <HStack bg={theme === "Light" ? "#a5d6a7" : "green" } 
+      <HStack bg={themeColors.backgroundNavbar} 
               p="3" spacing="10" align="center">
 
       <Button 
@@ -25,8 +29,8 @@ const Navbar = () => {
         <Box p="3" fontFamily="'Permanent Marker', cursive">
           <Link to="/">
             <Text px="2"
-              color={theme === "Light" ? "green" : "#a5d6a7"}
-              border={homeMatch ? theme === "Light" ? "2px solid green" : "2px solid #a5d6a7" : "none"}
+              color={themeColors.text}
+              border={homeMatch ? `2px solid ${themeColors.text}` : "none"}
               borderRadius={homeMatch ? "10px" : "none"}
               fontWeight="bold"
               fontSize="24"
@@ -36,9 +40,9 @@ const Navbar = () => {
           </Link>
         </Box>
 
-        <Box fontFamily="'Permanent Marker', cursive" color={theme === "Light" ? "green" : "#a5d6a7"}
-              border={homeMatch ? "none":  theme === "Light" ? "2px solid green" : "2px solid #a5d6a7" }
-              borderRadius={homeMatch ? "none" : "10px" }>
+        <Box fontFamily="'Permanent Marker', cursive" color={themeColors.text}
+              border={colorPickerMatch ?`2px solid ${themeColors.text}` : "none"}
+              borderRadius={colorPickerMatch ? "10px" : "none"}>
           <Link to="/colorpicker">
             <Text px="2"
               fontWeight="bold"
@@ -52,8 +56,21 @@ const Navbar = () => {
           </Link>
         </Box>
 
+        <Box fontFamily="'Permanent Marker', cursive" color={themeColors.text}
+              border={myColorsMatch ? `2px solid ${themeColors.text}` : "none"}
+              borderRadius={myColorsMatch ? "10px" : "none"}>
+          <Link to={`/users/${userId}/colors`}>
+            <Text px="2"
+              fontWeight="bold"
+              fontSize="20"
+            >
+              My colors
+            </Text>
+          </Link>
+        </Box>
+
         <CloseIcon
-          color={theme === "Light" ? "green" : "#a5d6a7"}
+          color={themeColors.text}
           ml="auto"
           mr="5"
           w={6}

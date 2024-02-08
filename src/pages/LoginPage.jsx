@@ -1,7 +1,7 @@
 import {
-  Button, Center, FormControl,
+  Center, FormControl,
   Heading, Input,
-  Text, Box, Image, Flex
+  Box, Image, Flex
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,12 +11,15 @@ import { auth } from "../lib/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import emailIcon from "../components/assets/email.png";
 import passwordIcon from "../components/assets/password.png";
-import styled from '@emotion/styled';
 import '../App.css';
+import { useThemeColors } from '../store/ThemeColor.context';
+import Button from "../components/Button.js"
+import Text from "../components/Text.js"
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { themeColors } = useThemeColors();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,31 +41,13 @@ const LoginPage = () => {
     }
   };
 
-//   const StyledInput = styled(Input)`
-//   ::placeholder {
-//     font-family: 'Permanent Marker', cursive;
-//   }
-// `;
-
-const StyledButtonDark = styled(Button)`
-background-color: rgba(46, 125, 50, 1);
-
-:hover {
-  background-color: rgba(27, 94, 32, 1);
-}
-`;
-
-const StyledButtonLight = styled(Button)`
-background-color: white;
-
-:hover {
-  background-color: rgba(200, 230, 201, 1);
-}
-`;
 
   return (
     <Center flexDirection="column" height="100vh"
-    bgGradient="linear(#e3ffe7, #288036)">
+    bgGradient={`linear(${themeColors.background}, ${themeColors.text})`}>
+      <Heading display="flex" alignItems="center" fontSize="50px"
+          fontFamily="'Permanent Marker', cursive" mb="70px" color={`${themeColors.text}`}
+        >~ Heavenly Coloring Palette ~</Heading>
       <Center
         flexDirection="column"
         p="43"
@@ -70,11 +55,11 @@ background-color: white;
         borderRadius="lg">
 
         <Heading display="flex" alignItems="center"
-          fontFamily="'Permanent Marker', cursive" mb="20px" color="green.600"
+          fontFamily="'Permanent Marker', cursive" mb="20px" color={`${themeColors.text}`}
         >Login</Heading>
 
         <FormControl>
-        <Box display="flex" alignItems="center" bg="green.100" mt="4">
+        <Box display="flex" alignItems="center" bg={`${themeColors.backgroundNavbar}`} mt="4">
           <Image src={emailIcon} boxSize="40px" p="2" />
           <Input
             value={email}
@@ -89,7 +74,7 @@ background-color: white;
         </FormControl>
 
         <FormControl>
-          <Box display="flex" alignItems="center" bg="green.100" mt="4">
+          <Box display="flex" alignItems="center" bg={`${themeColors.backgroundNavbar}`} mt="4">
           <Image src={passwordIcon} boxSize="40px" p="2"/>
           <Input
             value={password}
@@ -105,23 +90,19 @@ background-color: white;
 
         {error && <Text color="red">{error}</Text>}
 
-        <StyledButtonDark mt="9" onClick={onLogin} color="white" fontFamily="'Permanent Marker', cursive" fontWeight="normal">
-          Log in
-        </StyledButtonDark>
+        <Button title={"Log in"} mt="9" onClick={onLogin} color="white" 
+          fontFamily="'Permanent Marker', cursive" fontWeight="normal"/>
 
-        <Flex direction="row" mt="5" color="green.400" fontFamily="'Permanent Marker', cursive">
-          <Text mr="2" mt="2">
-            You don't have an account?
-          </Text>
-          <StyledButtonLight
-            color="green.600"
+        <Flex direction="row" mt="5" fontFamily="'Permanent Marker', cursive">
+          <Text title={"You don't have an account?"} mr="2" mt="2"/>
+
+          <Button
+            title={"Register"}
             bg="none"
             onClick={() => {
               navigate("/register");
             }}
-          >
-            Register
-          </StyledButtonLight>
+          />
         </Flex>
       </Center>
     </Center>
